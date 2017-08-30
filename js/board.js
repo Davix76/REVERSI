@@ -18,5 +18,8 @@ function Board(lado) {
 }
 
 Board.prototype.changeFicha = fucntion(color){
-  
+
 }
+ClassName.prototype.methodName = function () {
+
+};
