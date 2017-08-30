@@ -6,25 +6,15 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body background="../../../fond.jpg" onload="depart()">
-  <table border="1" width="100%">
-  <td bgcolor="0077ff">
-        <center>
-          <p>
-            <font color="ff7700" size="7">Othello</font>
-          </p>
-        </center>
-      </td>
-  </table>
-  <Center>
-<div id="tablero-borde"></div>
-<div id="casilla-interna"></div>
-  </center>
-  <form name="formul">
-    <input type="button" value="volver a jugar" onclick="salida()">
-  </form>
+<body>
+  <h2>OTHELLO</h2>
+  <div id="game"></div>
+  <div class="blanca"> <img src="./img/blanco.jpg"</div>
+  <div class="negra"><img src="./img/negro.jpg"</div>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="js/apply.js"></script>
+  <script src="js/player.js"></script>
   <script src="js/index.js"></script>
+  <script src="js/board.js"></script>
 </body>
 </html>
