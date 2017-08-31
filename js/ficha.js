@@ -1,5 +1,5 @@
-function Ficha(board,i,j){
-  this.pos = [i,j];
+function Ficha(board, i, j) {
+  this.pos = [i, j];
   this.status = 'vacio';
   this.element = $("<div class='hueco'>");
   this.element.click(this.selected.bind(this));
@@ -7,27 +7,27 @@ function Ficha(board,i,j){
   this.parentBoard = board;
 }
 
-Ficha.prototype.selected = function(){
-  if(this.ficha){
+Ficha.prototype.selected = function() {
+  if (this.ficha) {
     this.parentBoard.selectedFicha(this.pos, this.status);
     this.ficha.addClass('selected');
-  }else{
+  } else {
     this.parentBoard.clickOnEmpty(this.pos);
   }
 };
 
-Ficha.prototype.unselected = function(){
-  if(this.ficha){
+Ficha.prototype.unselected = function() {
+  if (this.ficha) {
     this.ficha.removeClass('selected');
   }
 };
 
-Ficha.prototype.addFicha = function(type){
-  if(this.status == 'vacio'){
+Ficha.prototype.addFicha = function(type) {
+  if (this.status == 'vacio') {
     this.status = type;
     this.ficha = $("<div class='ficha'>").addClass(this.status);
     this.ficha.appendTo(this.element);
-  }else{
+  } else {
     throw 'ERROR, no se puede añadir otra ficha en este hueco';
   }
 };
