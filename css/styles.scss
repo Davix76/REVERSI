@@ -1,0 +1,36 @@
+
+#game{
+  text-align: center;
+}
+
+$espacio_hueco: 45px;
+$espacio_ficha: $espacio_hueco - 10px;
+
+.hueco{
+  border-radius: 10px;
+  height: $espacio_hueco;
+  width: $espacio_hueco;
+  background: green;
+  display: inline-block;
+  margin: 2px;
+  text-align: center;
+  .ficha{
+    border-radius:50%;
+    width:$espacio_ficha;
+    height:$espacio_ficha;
+    line-height: $espacio_hueco;
+    margin: 4px auto;
+    &.blanca{
+      border: 1px solid black;
+      background: white;
+    }
+    &.negra{
+      border: 1px solid white;
+      background: black;
+    }
+    &.selected{
+      border: 4px solid blue !important;
+    }
+  }
+
+}
