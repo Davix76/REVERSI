@@ -21,38 +21,39 @@ function Board(lado) { // lado siempre tiene que ser un numero par
   this.board[(lado/2)-1][(lado/2)].addFicha('negra');
 }
 
-function posValida(board, pos, color) {
-  var colorAdversario = color === "negra" ? "blanca" : "negra" ;
+Board.prototype.posValida = function (pos) {
+
+  var colorAdversario = this.selectedColor === "negra" ? "blanca" : "negra" ;
   var y = pos[0];
   var x = pos[1];
   // posicion izquierda
-  if (x > 0 && board[y][x - 1].status === colorAdversario) {
+  if (x > 0 && this.board[y][x - 1].status === colorAdversario) {
     return true;
   }
   // posicion arriba
-  else if (y > 0 && board[y-1][x].status === colorAdversario) {
+  else if (y > 0 && this.board[y-1][x].status === colorAdversario) {
     return true;
   }
   //posicion derecha
-  else if (x < 7 && board[y][x + 1].status === colorAdversario) {
+  else if (x < 7 && this.board[y][x + 1].status === colorAdversario) {
     return true;
   }
   //posicion abajo
-  else if (y < 7 && board[y+1][x].status === colorAdversario) {
+  else if (y < 7 && this.board[y+1][x].status === colorAdversario) {
     return true;
   }
     return false;
-}
+};
 
-function cambiarColores(board, pos, color) {
-  var colorAdversario = color === "negra" ? "blanca" : "negra" ;
+Board.prototype.cambiarColores = function (pos) {
+  var colorAdversario = this.selectedColor === "negra" ? "blanca" : "negra" ;
   var y = pos[0];
   var x = pos[1];
   // posicion izquierda
-if (y < 7 && board[y+1][x].status === colorAdversario) {
-    board[y+1][x].status = colorAdversario;
+if (y < 7 && this.board[y+1][x].status === colorAdversario) {
+    this.board[y+1][x].status = colorAdversario;
   }
-}
+};
 
 // -- public interface
 
@@ -74,7 +75,7 @@ Board.prototype.selectedFicha = function(pos, color){
 Board.prototype.clickOnEmpty = function(pos){
   if(this.selectedPos){
     // PONER CONDICIONES A LAS FICHAS
-    if (posValida(this.board, pos, this.selectedColor)) {
+    if (this.posValida(pos)) {
 
       this.board[this.selectedPos[0]][this.selectedPos[1]].unselected();
       this.selectedPos = null;
@@ -84,7 +85,7 @@ Board.prototype.clickOnEmpty = function(pos){
 
       //cambiar status FICHAS
     }
-    cambiarColores(this.board,pos,this.selectedColor);
+    this.cambiarColores(pos);
 
   }else{
     console.log("No hay ficha seleccionada");
