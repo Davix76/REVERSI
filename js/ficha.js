@@ -12,7 +12,7 @@ Ficha.prototype.selected = function(){
     this.parentBoard.selectedFicha(this.pos, this.status);
     this.ficha.addClass('selected');
   }else{
-    this.parentBoard.clickOnEmpty(this.pos)
+    this.parentBoard.clickOnEmpty(this.pos);
   }
 };
 
