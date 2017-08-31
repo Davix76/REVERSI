@@ -22,10 +22,39 @@ function Board(lado) { // lado siempre tiene que ser un numero par
   this.board[(lado/2)-1][(lado/2)].addFicha('negra');
 }
 
+// -- private
+
+function posValida(board, pos, color) {
+  var colorAdversario = color === "negra" ? "blanca" : "negra" ;
+  var y = pos[0];
+  var x = pos[1];
+  // posicion izquierda
+  if (x > 0 && board[y][x - 1].status === colorAdversario) {
+    return true;
+  }
+  // posicion arriba
+  else if (y > 0 && board[y-1][x].status === colorAdversario) {
+    return true;
+  }
+  //posicion derecha
+  else if (x < 7 && board[y][x + 1].status === colorAdversario) {
+    return true;
+  }
+  //posicion abajo
+  else if (y < 7 && board[y+1][x].status === colorAdversario) {
+    return true;
+  }
+
+    return false;
+
+}
+
+// -- public interface
+
 Board.prototype.unselectAll = function(){
-  for(var i=0; i< this.board.length; i++){
-    for(var j=0; j< this.board[i].length; j++){
-      this.board[i][j].unselected();
+  for(var y=0; y< this.board.length; y++){
+    for(var x=0; x< this.board[y].length; x++){
+      this.board[y][x].unselected();
     }
   }
 };
@@ -42,12 +71,18 @@ Board.prototype.clickOnEmpty = function(pos){
   if(this.selectedPos){
     console.log("Ficha seleccionada, validar posicion y cambiar estado de nueva posicion si es valido");
     console.log(pos);
-    // Desseleccionas la ficha actual
-    this.board[this.selectedPos[0]][this.selectedPos[1]].unselected();
-    this.selectedPos = null;
+    // PONER CONDICIONES A LAS FICHAS
+    if (posValida(this.board, pos, this.selectedColor)) {
 
-    // Creas una ficha nueva en la posicion válida
-    this.board[pos[0]][pos[1]].addFicha(this.selectedColor);
+      this.board[this.selectedPos[0]][this.selectedPos[1]].unselected();
+      this.selectedPos = null;
+
+      // Creas una ficha nueva en la posicion válida
+      this.board[pos[0]][pos[1]].addFicha(this.selectedColor);
+
+      //cambiar status FICHAS
+    }
+
   }else{
     console.log("No hay ficha seleccionada");
   }

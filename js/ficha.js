@@ -1,5 +1,5 @@
 function Ficha(board,i,j){
-  this.pos = [i,j]
+  this.pos = [i,j];
   this.status = 'vacio';
   this.element = $("<div class='hueco'>");
   this.element.click(this.selected.bind(this));
