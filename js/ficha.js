@@ -2,23 +2,24 @@ function Ficha(board, i, j) {
   this.pos = [i, j];
   this.status = 'vacio';
   this.element = $("<div class='hueco'>");
-  this.element.click(this.selected.bind(this));
+  this.element.click(this.click.bind(this));
   this.element.appendTo(board.element);
   this.parentBoard = board;
 }
 
-Ficha.prototype.selected = function() {
-  if (this.ficha) {
-    this.parentBoard.selectedFicha(this.pos, this.status);
-    this.ficha.addClass('selected');
-  } else {
+Ficha.prototype.click = function() {
+  if (!this.ficha) {
     this.parentBoard.clickOnEmpty(this.pos);
   }
 };
 
-Ficha.prototype.unselected = function() {
+Ficha.prototype.cambiaColor = function(newColor) {
   if (this.ficha) {
-    this.ficha.removeClass('selected');
+    this.ficha.removeClass(this.status);
+    this.status = newColor;
+    this.ficha.addClass(this.status);
+  } else {
+    throw 'ERROR, no se puede cambiar el color, aqui no hay ficha';
   }
 };
 
