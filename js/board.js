@@ -40,40 +40,40 @@ Board.prototype.posValida = function(pos) {
   var colorAdversario = this.colorTurno === "negra" ? "blanca" : "negra";
   var y = pos[0];
   var x = pos[1];
-  // si la posicion adjacente izquierda es color adversaria
+  // si la posicion izquierda es color  adversariao
   if (x > 0 && this.board[y][x - 1].status === colorAdversario) {
-    // e si encontro mi color en essa dire
+
     for (var k = x-1; k >= 0; k--){
-      // si la celula en la posicion del loop es igual al la que jugo
+
       if (this.board[y][k].status === this.colorTurno){
         return 'izquierda';
       }
     }
   }
-  // si la posicion adjacente arriba es color adversaria
+
   if (y > 0 && this.board[y - 1][x].status === colorAdversario) {
-    // e si encontro mi color en essa dire
+
     for (var k = y-1; k >= 0; k--){
-      // si la celula en la posicion del loop es igual al la que jugo
+
       if (this.board[k][x].status === this.colorTurno){
         return 'arriba';
       }
     }
   }
-  // si la posicion adjacente derecha es color adversaria
+
   if (x < this.lado - 1 && this.board[y][x + 1].status === colorAdversario) {
     for (var k = x+1; k < this.lado - 1; k++){
-      // si la celula en la posicion del loop es igual al la que jugo
+
       if (this.board[y][k].status === this.colorTurno){
         return 'derecha';
       }
     }
 
   }
-  // si la posicion adjacente abajo es color adversaria
+
   if (y < this.lado - 1 && this.board[y + 1][x].status === colorAdversario) {
     for (var k = y+1; k < this.lado - 1; k++){
-      // si la celula en la posicion del loop es igual al la que jugo
+
       if (this.board[k][x].status === this.colorTurno){
         return 'abajo';
       }
@@ -89,7 +89,7 @@ Board.prototype.cambiarColoresArriba = function(pos) {
 
   // loop de pos[0] hasta 0 para cambiar colores
   for (var k = y-1; k >= 0; k--){
-    // si la celula en la posicion del loop es adversario
+
     if (this.board[k][x].status === colorAdversario){
       this.board[k][x].cambiaColor(this.colorTurno);
     }
@@ -106,7 +106,7 @@ Board.prototype.cambiarColoresAbajo = function(pos) {
 
   // loop de pos[0] hasta 0 para cambiar colores
   for (var k = y+1; k >= 0; k++){
-    // si la celula en la posicion del loop es adversario
+  
     if (k > this.lado - 1) {
       return;
     }
