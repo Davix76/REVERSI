@@ -1,7 +1,7 @@
 function Ficha(board, i, j) {
   this.pos = [i, j];
   this.status = 'vacio';
-  this.element = $("<div class='hueco'>");
+  this.element = $("<div class='hueco'></div>");
   this.element.click(this.click.bind(this));
   this.element.appendTo(board.element);
   this.parentBoard = board;

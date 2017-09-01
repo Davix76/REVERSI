@@ -2,6 +2,7 @@ function Board(lado) { // lado siempre tiene que ser un numero par
   this.element = $("#game");
   this.scoreA = 0;
   this.scoreB = 0;
+  this.lado = lado;
 
   this.colorTurno = 'blanca';
 
@@ -60,8 +61,8 @@ Board.prototype.posValida = function(pos) {
     }
   }
   // si la posicion adjacente derecha es color adversaria
-  if (x < 7 && this.board[y][x + 1].status === colorAdversario) {
-    for (var k = x+1; k < 7; k++){
+  if (x < this.lado - 1 && this.board[y][x + 1].status === colorAdversario) {
+    for (var k = x+1; k < this.lado - 1; k++){
       // si la celula en la posicion del loop es igual al la que jugo
       if (this.board[y][k].status === this.colorTurno){
         return 'derecha';
@@ -70,8 +71,8 @@ Board.prototype.posValida = function(pos) {
 
   }
   // si la posicion adjacente abajo es color adversaria
-  if (y < 7 && this.board[y + 1][x].status === colorAdversario) {
-    for (var k = y+1; k < 7; k++){
+  if (y < this.lado - 1 && this.board[y + 1][x].status === colorAdversario) {
+    for (var k = y+1; k < this.lado - 1; k++){
       // si la celula en la posicion del loop es igual al la que jugo
       if (this.board[k][x].status === this.colorTurno){
         return 'abajo';
@@ -86,37 +87,113 @@ Board.prototype.cambiarColoresArriba = function(pos) {
   var y = pos[0];
   var x = pos[1];
 
-  var hayQueCambiar = false;
-
-  // loop de pos[0] hasta 0 para detectar se hay que cambiar colores
+  // loop de pos[0] hasta 0 para cambiar colores
   for (var k = y-1; k >= 0; k--){
-    // si la celula en la posicion del loop es igual al la que jugo
-    if (this.board[k][x].status === this.colorTurno){
-      hayQueCambiar = true;
+    // si la celula en la posicion del loop es adversario
+    if (this.board[k][x].status === colorAdversario){
+      this.board[k][x].cambiaColor(this.colorTurno);
     }
+    else {
+      break;
+      }
   }
-
-  // se no ay que cambiar, return
-
-  console.log();
-
-  // loop de pos[0] hasta 0 para cambiarlas
-     // si la celula en la posicion del loop es color adversaria
-        // cambiarla
-     // si es tu color, return
 };
 
-// -- public interface
+Board.prototype.cambiarColoresAbajo = function(pos) {
+  var colorAdversario = this.colorTurno === "negra" ? "blanca" : "negra";
+  var y = pos[0];
+  var x = pos[1];
+
+  // loop de pos[0] hasta 0 para cambiar colores
+  for (var k = y+1; k >= 0; k++){
+    // si la celula en la posicion del loop es adversario
+    if (k > this.lado - 1) {
+      return;
+    }
+    if (this.board[k][x].status === colorAdversario){
+      this.board[k][x].cambiaColor(this.colorTurno);
+    }
+    else {
+      break;
+      }
+  }
+};
+
+Board.prototype.cambiarColoresIzquierda = function(pos) {
+  var colorAdversario = this.colorTurno === "negra" ? "blanca" : "negra";
+  var y = pos[0];
+  var x = pos[1];
+
+  // loop de pos[0] hasta 0 para cambiar colores
+  for (var k = x-1; k < 8; k--){
+    // si la celula en la posicion del loop es adversario
+    if (k < 0){ return;}
+    if (this.board[y][k].status === colorAdversario){
+      this.board[y][k].cambiaColor(this.colorTurno);
+    }
+    else {
+      break;
+      }
+  }
+};
+
+Board.prototype.cambiarColoresDerecha = function(pos) {
+  var colorAdversario = this.colorTurno === "negra" ? "blanca" : "negra";
+  var y = pos[0];
+  var x = pos[1];
+
+  // loop de pos[0] hasta 0 para cambiar colores
+  for (var k = x+1; k < 8; k++){
+    // si la celula en la posicion del loop es adversario
+    if (this.board[y][k].status === colorAdversario) {
+      this.board[y][k].cambiaColor(this.colorTurno);
+    }
+    else {
+      break;
+    }
+  }
+};
+
+Board.prototype.puedeJugar = function() {
+  for (var i = 0; i < this.lado; i++) {
+    for (var j = 0; j < this.lado; j++) {
+      var pos = [i, j];
+      var puede = this.posValida(pos);
+      if (puede) {
+        return true;
+      }
+    }
+  }
+};
 
 Board.prototype.clickOnEmpty = function(pos) {
   // PONER CONDICIONES A LAS FICHAS
-  if (this.posValida(pos)) {
+  var cambiarDireccion = this.posValida(pos);
+  if (cambiarDireccion) {
     // Creas una ficha nueva en la posicion válida
     this.board[pos[0]][pos[1]].addFicha(this.colorTurno);
     //cambiar status FICHAS
-    // this.cambiarColores(pos);
+    if (cambiarDireccion === 'arriba') {
+        this.cambiarColoresArriba(pos);
+    }
+
+    if (cambiarDireccion === 'abajo') {
+        this.cambiarColoresAbajo(pos);
+    }
+    if (cambiarDireccion === 'izquierda') {
+        this.cambiarColoresIzquierda(pos);
+    }
+    if (cambiarDireccion === 'derecha') {
+        this.cambiarColoresDerecha(pos);
+    }
     // inverter la color del turno
     this.colorTurno = this.colorTurno === 'negra' ? 'blanca' : 'negra';
     this.updateColorTurno();
+
+    if (!this.puedeJugar()) {
+      // mostrar alerta
+      // e despues, cambiar turno de nuevo
+      console.log();
+    }
   }
 };
